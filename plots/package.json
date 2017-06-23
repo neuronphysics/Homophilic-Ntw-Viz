@@ -1,0 +1,26 @@
+{
+  "name": "d3-webpack-babel",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "d3": "^4.9.1",
+    "jsnetworkx": "^0.3.4"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-env": "^1.5.2",
+    "webpack": "^3.0.0",
+    "webpack-dev-server": "^1.9.0"
+  },
+  "scripts": {
+    "build": "babel src -d lib",
+    "start": "webpack-dev-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "neuronphysics"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
