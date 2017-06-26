@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+     <meta charset="utf-8">     
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <title>Network </title>
+     <style>
+        .node {
+           fill: #ccc;
+           stroke: #fff;
+           stroke-width: 1px;
+        }
+        .link {
+           stroke: #777;
+           stroke-width: 2px;
+        }
+
+     </style>
+</head>
+<body>
+     <script src='http://d3js.org/d3.v3.min.js'></script>
+     <script>
+     var width = 640,
+         height = 480;
+     var svg = d3.select('body').append('svg')
+              .attr('width', width)
+              .attr('height', height);
+     var force = d3.layout.force()
+                    .gravity(.05)
+                    .distance(100)
+                    .charge(-100)
+                    .size([width, height]);
+         
+     var Gnodes=
+         [ { name: '0', color: 'blue' },
+           { name: '1', color: 'blue' },
+           { name: '2', color: 'blue' },
+           { name: '3', color: 'blue' },
+           { name: '4', color: 'blue' },
+           { name: '5', color: 'blue' },
+           { name: '6', color: 'blue' },
+           { name: '7', color: 'blue' },
+           { name: '8', color: 'blue' },
+           { name: '9', color: 'blue' },
+           { name: '10', color: 'red' },
+           { name: '11', color: 'blue' },
+           { name: '12', color: 'red' },
+           { name: '13', color: 'blue' },
+           { name: '14', color: 'red' },
+           { name: '15', color: 'blue' },
+           { name: '16', color: 'blue' },
+           { name: '17', color: 'red' },
+           { name: '18', color: 'blue' },
+           { name: '19', color: 'blue' } ];
+     var Glinks=
+         [ { source: 0, target: 3 },
+           { source: 0, target: 4 },
+           { source: 0, target: 12 },
+           { source: 1, target: 3 },
+           { source: 1, target: 4 },
+           { source: 1, target: 5 },
+           { source: 1, target: 7 },
+           { source: 1, target: 8 },
+           { source: 1, target: 10 },
+           { source: 1, target: 11 },
+           { source: 1, target: 16 },
+           { source: 1, target: 17 },
+           { source: 2, target: 3 },
+           { source: 2, target: 6 },
+           { source: 2, target: 9 },
+           { source: 3, target: 4 },
+           { source: 3, target: 5 },
+           { source: 3, target: 6 },
+           { source: 3, target: 8 },
+           { source: 3, target: 10 },
+           { source: 3, target: 14 },
+           { source: 3, target: 15 },
+           { source: 4, target: 5 },
+           { source: 4, target: 9 },
+           { source: 4, target: 13 },
+           { source: 4, target: 14 },
+           { source: 4, target: 18 },
+           { source: 5, target: 6 },
+           { source: 5, target: 7 },
+           { source: 5, target: 12 },
+           { source: 5, target: 13 },
+           { source: 5, target: 17 },
+           { source: 6, target: 7 },
+           { source: 7, target: 8 },
+           { source: 8, target: 9 },
+           { source: 8, target: 11 },
+           { source: 8, target: 19 },
+           { source: 9, target: 10 },
+           { source: 9, target: 11 },
+           { source: 9, target: 12 },
+           { source: 9, target: 14 },
+           { source: 9, target: 15 },
+           { source: 9, target: 16 },
+           { source: 9, target: 19 },
+           { source: 11, target: 15 },
+           { source: 11, target: 17 },
+           { source: 11, target: 19 },
+           { source: 12, target: 13 },
+           { source: 12, target: 16 },
+           { source: 12, target: 18 },
+           { source: 13, target: 18 } ];
+        //Creates the graph data structure 
+        force.nodes(Gnodes)
+             .links(Glinks)
+             .start();
+         //Create all the line svgs but without locations 
+        var link = svg.selectAll(".link")
+           .data(Glinks)
+           .enter().append("line")
+           .attr("class", "link")
+           .style("stroke-width","1px");
+        
+        //Do the same with the circles for the nodes - 
+        var node = svg.selectAll(".node")
+            .data(Gnodes)
+            .enter().append("circle")
+            .attr("class", "node")
+            .attr("r", 8)
+            .style("fill", function (d) {
+              return d.color;
+            })
+            .call(force.drag);
+        
+        force.on("tick", function () {
+             link.attr("x1", function (d) {
+                 return d.source.x;
+                 })
+                 .attr("y1", function (d) {
+                 return d.source.y;
+                 })
+                 .attr("x2", function (d) {
+                 return d.target.x;
+                 })
+                 .attr("y2", function (d) {
+                 return d.target.y;
+                 });
+
+             node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+        });
+
+    </script>
+</body>
+</html>

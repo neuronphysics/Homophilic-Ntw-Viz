@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+     <meta charset="utf-8">     
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+     <title>Network of homophily</title>
+
+     <script type="text/javascript" src="jsnetworkx.js"></script>
+     <script src='http://d3js.org/d3.v3.min.js'></script>     
+     <style>
+
+        .node {
+           fill: #ccc;
+           stroke: #fff;
+           stroke-width: 1px;
+        }
+
+        .link {
+           stroke: #777;
+           stroke-width: 2px;
+        }
+
+     </style>
+</head>
+<body>
+
+     <p id="graphLinks"></p>
+     <script type="text/javascript">
+        
+        var width = 640,
+            height = 480;
+
+        // We only need to specify the dimensions for this container.
+
+        var svg = d3.select('body').append('svg')
+              .attr('width', width)
+              .attr('height', height);
+        var force = d3.layout.force()
+                      .gravity(.05)
+                      .distance(100)
+                      .charge(-100)
+                      .size([width, height]);
+        
+        function printArray(arr){
+                //print an array
+                for(var i = 0; i < arr.length; i++){
+                    document.write("<br>"+arr[i]);
+                }
+            } 
+        function getRandomSubarray(arr, size) {
+                // based on this answer https://stackoverflow.com/questions/11935175/sampling-a-random-subset-from-an-array
+                var shuffled = arr.slice(0), i = arr.length, temp, index;
+                while (i--) {
+                      index = Math.floor((i + 1) * Math.random());
+                      temp = shuffled[index];
+                      shuffled[index] = shuffled[i];
+                      shuffled[i] = temp;
+                }
+                return shuffled.slice(0, size);
+        }
+
+        function defaultDict() {
+               //https://stackoverflow.com/questions/19127650/defaultdict-equivalent-in-javascript
+               this.get = function (key) {
+                   if (this.hasOwnProperty(key)) {
+                      return key;
+                   } else {
+                      return 0;
+                   }
+               }
+        }
+
+        function fillArray(value, len) {
+                //https://stackoverflow.com/questions/12503146/create-an-array-with-same-element-repeated-multiple-times-in-javascript
+                var arr = [];
+                for (var i = 0; i < len; i++) {
+                    arr.push(value);
+                }            
+                return arr;
+        }
+
+        function zip() {
+                //https://stackoverflow.com/questions/4856717/javascript-equivalent-of-pythons-zip-function
+                var args = [].slice.call(arguments);
+                var shortest = args.length==0 ? [] : args.reduce(function(a,b){
+                    return a.length<b.length ? a : b
+                });
+                return shortest.map(function(_,i){
+                       return args.map(function(array){return array[i]})
+                });
+        }
+
+        function pickTargets(G,source,targetList,dist,m){
+                var targetProbDict = new Object();
+                for (var t=0; t<targetList.length; t++){
+                   var targetProb = (dist['('+source.toString()+','+targetList[t].toString()+')'])* (G.degree(targetList[t])+0.00001);
+                   targetProbDict[targetList[t]] = targetProb;
+                }    
+                var probSum=0;
+                Object.getOwnPropertyNames(targetProbDict).forEach(function (val, idx, array) {probSum+= targetProbDict[val]; });
+                var targets = new Array();
+                var targetListCopy = targetList.slice();
+                var countLooking = 0;
+                if (probSum == 0){
+                   return targets;
+                }
+                while (targets.length < m){
+                      countLooking++;
+                      if (countLooking > G.numberOfNodes()){
+                         break;
+                      }
+                      var randNum = Math.random();
+                      var cumsum = 0.0;
+                      for (var k=0; k<targetListCopy.length; k++){
+                          cumsum += targetProbDict[targetListCopy[k]]/ probSum;
+                         if (randNum < cumsum){
+                            targets.push(targetListCopy[k]);
+                            targetListCopy.splice(k,1);
+                            break;
+                         }
+                      }
+                }
+                return targets;
+        }
+
+        function  homophilic_barabasi_albert_graph_assym(N, m , minorityFraction, hAB , hBA){
+                var hAA=1-hAB;
+                var hBB=1-hBA;
+                var G = new jsnx.Graph();
+                var minority =Math.floor(minorityFraction*N );
+                var l=Array.apply(null, {length: N}).map(Number.call, Number); //https://stackoverflow.com/questions/3746725/create-a-javascript-array-containing-1-n
+                var minorityNodes=getRandomSubarray(l,minority);
+                var nodeAttribute=new Object();
+                G.addNodesFrom(minorityNodes,{color:'red'})  
+                //exclude majority from minority items        
+                var majorityNodes = l.filter(function (item) {return minorityNodes.indexOf(item) === -1;});
+                G.addNodesFrom(majorityNodes,{color:'blue'})
+                for (var i=0; i<N; i++){
+                   if (minorityNodes.indexOf(i) >= 0){
+                      nodeAttribute[i]='minority';
+                   }else{
+                      nodeAttribute[i]='majority';
+                   }
+                }
+                var dist = new defaultDict();
+                for (var i=0; i<N; i++){
+                    var n1Attr=nodeAttribute[i];
+                    for (var j=0;j<N;j++){
+                        var n2Attr=nodeAttribute[j];
+                        if (n1Attr == n2Attr){
+                           if (n1Attr=='minority'){
+                              dist['('+i.toString()+','+j.toString()+')']=hAA;
+                           }else{
+                              dist['('+i.toString()+','+j.toString()+')']=hBB; 
+                           }
+                        }else{
+                           if (n1Attr=='minority'){
+                              dist['('+i.toString()+','+j.toString()+')']=hAB;
+                           }else{
+                              dist['('+i.toString()+','+j.toString()+')']=hBA; 
+                           }
+                        }
+                    }
+                }
+                var targetList=Array.apply(null, {length: m}).map(Number.call, Number);
+                var source=m;
+                while (source <N){
+                      var targets=pickTargets(G,source,targetList,dist,m);
+                      if (targets.length>0){
+                         var newArr=fillArray(source,m);
+                         G.addEdgesFrom(zip(newArr,targets));
+                      }
+                      targetList.push(source);
+                      source++;
+                }
+                return G;
+        }
+
+        var graph=homophilic_barabasi_albert_graph_assym(30, 4 , 0.2, 0.5 , 0.5);
+        // Extract the nodes and links from the data.
+        var Glinks = [];
+
+        graph.edges().forEach(function(item){
+           Glinks.push({"source": item[0],"target":item[1]})
+        });
+        var Gnodes = [];
+        var obj=graph.node._numberValues;
+        Object.keys(obj).forEach(function(key) {
+           Gnodes.push({"name":key, "color":obj[key]["color"]});
+        });
+         //print links of network
+         document.getByElementId("graphLinks").innerHTML=printArray(obj);
+        //Creates the graph data structure 
+        force.nodes(Gnodes)
+             .links(Glinks)
+             .start();
+         //Create all the line svgs but without locations yet
+        var link = svg.selectAll(".link")
+           .data(Glinks)
+           .enter().append("line")
+           .attr("class", "link")
+           .style("stroke-width","2px");
+        
+        //Do the same with the circles for the nodes - no 
+        var node = svg.selectAll(".node")
+            .data(Gnodes)
+            .enter().append("circle")
+            .attr("class", "node")
+            .attr("r", 8)
+            .style("fill", function (d) {
+              return d.color;
+            })
+            .call(force.drag);
+        //Now we are giving the SVGs co-ordinates - the force layout is generating the co-ordinates which this code is using to update the attributes of the SVG elements
+        force.on("tick", function () {
+             link.attr("x1", function (d) {
+                 return d.source.x;
+                 })
+                 .attr("y1", function (d) {
+                 return d.source.y;
+                 })
+                 .attr("x2", function (d) {
+                 return d.target.x;
+                 })
+                 .attr("y2", function (d) {
+                 return d.target.y;
+                 });
+
+              node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+        });
+    </script>
+</body>
+
+</html>
