@@ -7,7 +7,7 @@
      <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
      <title>Network of homophily</title>
 
-     <script type="text/javascript" src="jsnetworkx.js"></script>
+     <script type="text/javascript" src="https://rawgit.com/fkling/JSNetworkX/master/jsnetworkx.js"></script>
      <script src='http://d3js.org/d3.v3.min.js'></script>     
      <style>
         .title {
@@ -34,7 +34,7 @@
 </head>
 <body>
      <h1 class="title">Simulating a network with homophilic property </h1>
-     <p id="graphLinks"></p>
+     
      <script type="text/javascript">
         
         var width = 640,
@@ -53,11 +53,12 @@
         
         function printArray(arr){
                 //print an array
-               
-             return arr.map(function(element){
-                 return element;
-             }).join(", ");
-            } 
+               var text="";
+               for (var i=0;i<arr.length;i++){
+                   text+=arr[i]+"<br>";
+               }
+               return text; 
+        } 
         function getRandomSubarray(arr, size) {
                 // based on this answer https://stackoverflow.com/questions/11935175/sampling-a-random-subset-from-an-array
                 var shuffled = arr.slice(0), i = arr.length, temp, index;
@@ -199,8 +200,7 @@
         Object.keys(obj).forEach(function(key) {
            Gnodes.push({"name":key, "color":obj[key]["color"]});
         });
-         //print links of network
-         document.getByElementId("graphLinks").innerHTML=printArray(obj);
+        
         //Creates the graph data structure 
         force.nodes(Gnodes)
              .links(Glinks)
