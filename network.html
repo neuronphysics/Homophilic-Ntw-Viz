@@ -3,12 +3,20 @@
 <head>
      <meta charset="utf-8">     
      <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
      <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
      <title>Network of homophily</title>
 
      <script type="text/javascript" src="jsnetworkx.js"></script>
      <script src='http://d3js.org/d3.v3.min.js'></script>     
      <style>
+         .title{
+             font-family: 'Tangerine', serif;
+             font-size: 70px;
+             color:crimson;
+             text-align: center;
+             padding-bottom: 20px;
+         }
 
         .node {
            fill: #ccc;
@@ -24,7 +32,7 @@
      </style>
 </head>
 <body>
-
+     <h1 class="title">Simulating a network with homophilic property </h1>
      <p id="graphLinks"></p>
      <script type="text/javascript">
         
