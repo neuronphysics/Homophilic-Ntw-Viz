@@ -53,9 +53,10 @@
         
         function printArray(arr){
                 //print an array
-                for(var i = 0; i < arr.length; i++){
-                    document.write("<br>"+arr[i]);
-                }
+               
+             return arr.map(function(element){
+                 return element;
+             }).join(", ");
             } 
         function getRandomSubarray(arr, size) {
                 // based on this answer https://stackoverflow.com/questions/11935175/sampling-a-random-subset-from-an-array
