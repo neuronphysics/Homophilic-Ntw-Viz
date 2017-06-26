@@ -29,6 +29,9 @@
            stroke: #777;
            stroke-width: 2px;
         }
+         svg{
+          background-color:burlywood;   
+         }
 
      </style>
 </head>
@@ -37,8 +40,8 @@
      
      <script type="text/javascript">
         
-        var width = 640,
-            height = 480;
+        var width = 1500,
+            height = 1200;
 
         // We only need to specify the dimensions for this container.
 
@@ -188,40 +191,52 @@
                 return G;
         }
 
-        var graph=homophilic_barabasi_albert_graph_assym(30, 4 , 0.2, 0.5 , 0.5);
+        var graph=homophilic_barabasi_albert_graph_assym(500, 10 , 0.2, 0.6 , 0.4);
         // Extract the nodes and links from the data.
         var Glinks = [];
-
+        var W=graph.degree()._numberValues;
         graph.edges().forEach(function(item){
            Glinks.push({"source": item[0],"target":item[1]})
         });
         var Gnodes = [];
         var obj=graph.node._numberValues;
         Object.keys(obj).forEach(function(key) {
-           Gnodes.push({"name":key, "color":obj[key]["color"]});
+           Gnodes.push({"name":key, "color":obj[key]["color"], "count":W[key]});
         });
         
         //Creates the graph data structure 
         force.nodes(Gnodes)
              .links(Glinks)
+             .linkDistance(function(d) { 
+              return(0.1*Glinks.length); 
+             })//link length
              .start();
          //Create all the line svgs but without locations yet
         var link = svg.selectAll(".link")
            .data(Glinks)
            .enter().append("line")
            .attr("class", "link")
-           .style("stroke-width","2px");
+           .style("stroke-width","0.3px");
         
         //Do the same with the circles for the nodes - no 
         var node = svg.selectAll(".node")
             .data(Gnodes)
-            .enter().append("circle")
+            .enter().append("g")
             .attr("class", "node")
-            .attr("r", 8)
+            .call(force.drag);
+        node.append("circle")
+             .attr("r", function(d){
+              return d.count*0.5;   
+            })
+            .style("opacity", .3)
             .style("fill", function (d) {
               return d.color;
-            })
-            .call(force.drag);
+            });
+        //add degree of node as text 
+        node.append("text")
+            .attr("text-anchor", "middle")
+            .text(function(d) { return d.count })
+            .attr("font-family",'Raleway',"Tangerine");
         //Now we are giving the SVGs co-ordinates - the force layout is generating the co-ordinates which this code is using to update the attributes of the SVG elements
         force.on("tick", function () {
              link.attr("x1", function (d) {
