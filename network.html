@@ -3,8 +3,9 @@
 <head>
      <meta charset="utf-8">     
      <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
+     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
      <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
      <title>Network of homophily</title>
 
      <script type="text/javascript" src="https://rawgit.com/fkling/JSNetworkX/master/jsnetworkx.js"></script>
@@ -14,7 +15,7 @@
            font-family: 'Tangerine', serif;
            font-size: 80px;
            font-weight: Bold;
-           color:crimson;
+           color:darkblue;
            text-align: center;
            padding-bottom: 20px;
          }
@@ -29,17 +30,108 @@
            stroke: #777;
            stroke-width: 2px;
         }
-         svg{
+        svg{
           background-color:burlywood;   
+        }
+        form{
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+        }
+        input {
+          margin: 5px 5px;
+          padding:5px 5px;
+          width:30%;
          }
-
+         h3 {
+            font-family:'Tangerine'; 
+            text-align:left;
+            color:aquamarine;
+            font-size: 55px;
+            font-weight: Bold; 
+         }
+         label{
+               color:blueviolet;
+               font-family:'Tangerine'; 
+               font-weight: Bold;
+               font-size: 40px;
+              }
+         body{
+             background-color: #F07575; 
+             background-image: -webkit-linear-gradient(top, hsl(0, 80%, 70%), #bada55); 
+             background-image: -moz-linear-gradient(top, hsl(0, 80%, 70%), #bada55); 
+             background-image: -o-linear-gradient(top, hsl(0, 80%, 70%), #bada55);  
+             background-image: linear-gradient(to bottom, hsl(0, 80%, 70%), #bada55); 
+             }
      </style>
 </head>
-<body>
+<body ng-app="myApp">
      <h1 class="title">Simulating a network with homophilic property </h1>
-     
+     <div id="outer" ng-controller="MainCtrl" class="col-md-8">
+        <network-inputs inputs="networkInputs" submit="submit(inputs)"></network-inputs>
+     </div> 
+    <!--test -->
      <script type="text/javascript">
         
+        //get the input parameters for plotting
+         angular.module("myApp", [])
+         
+         .directive('networkInputs', function() {
+         return {
+                restrict: 'E',
+                scope: {
+                   inputs: '<',
+                   submit: '&'
+                },
+                template: 
+              '<h3 >Initialise new parameters to generate a network </h3>'+
+                    '<form ng-submit="submit({inputs: inputs})" class="form-inline">'+
+                      '<div class="form-group">'+
+                         '<label>Number of nodes</label>'+
+                         '<input type="number" min="10" class="form-control" ng-model="inputs.N" ng-required="true">'+
+                      '</div>'+
+                      '<div class="form-group">'+
+                         '<label>Number of edges of a new node</label>'+
+                          '<input type="number" min="1" class="form-control" ng-model="inputs.m" ng-required="true">'+
+                      '</div>'+
+                      '<div class="form-group">'+
+                         '<label>Minority Fraction</label>'+
+                         '<input type="number" min="0" step="0.01" class="form-control" ng-model="inputs.minority" ng-required="true">'+
+                      '</div>'+
+                      '<div class="form-group">'+
+                          '<label>h<sub>ab</sub></label>'+
+                          '<input type="number" min="0.01" step="0.01" class="form-control" ng-model="inputs.hAB" ng-required="true">'+
+                      '</div>'+
+                      '<div class="form-group">'+
+                          '<label>h<sub>ba</sub></label>'+
+                          '<input type="number"  min="0.01" step="0.01" class="form-control" ng-model="inputs.hBA" ng-required="true">'+
+                      '</div>'+
+                      '<button style="color:black; margin: 1rem 4rem;" type="submit">Generate</button>' +
+                   '</form>'};
+         })
+         .controller("MainCtrl",  ['$scope',function($scope) {
+
+               $scope.networkInputs={};
+
+               $scope.submit = function(inputs) {
+                   //do whatever you want with your data insede the controller
+                   var dataObject = {
+                       N: inputs.N,
+                       m: inputs.m,
+                       minority: inputs.minority,
+                       hAB: inputs.hAB,
+                       hBA: inputs.hBA
+                   };
+                   //lets simply log them but you can plot or smth other 
+                   console.log(dataObject); 
+                   
+                   
+               }
+               
+         }]);
+        var scope=angular.element(document.getElementById("outer")).scope();
+        var inputVals=scope.networkInputs;
+        //SVG size
         var width = 1500,
             height = 1200;
 
@@ -191,7 +283,7 @@
                 return G;
         }
 
-        var graph=homophilic_barabasi_albert_graph_assym(500, 10 , 0.2, 0.6 , 0.4);
+        var graph=homophilic_barabasi_albert_graph_assym(inputVals.N, inputVals.m , inputVals.minority, inputVals.hAB , inputVals.hBA);
         // Extract the nodes and links from the data.
         var Glinks = [];
         var W=graph.degree()._numberValues;
