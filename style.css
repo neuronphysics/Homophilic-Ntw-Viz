@@ -1,0 +1,52 @@
+.title {
+            font-family: 'Tangerine', serif;
+            font-size: 80px;
+            font-weight: Bold;
+            color:darkblue;
+            text-align: center;
+            padding-bottom: 20px;
+}
+
+.node {
+            fill: #ccc;
+            stroke: #fff;
+            stroke-width: 1px;
+}
+
+.link {
+            stroke: #777;
+            stroke-width: 2px;
+}
+svg{
+            background-color:burlywood;   
+}
+form{
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+}
+input {
+            margin: 5px 5px;
+            padding:5px 5px;
+            width:30%;
+}
+h3 {
+            font-family:'Tangerine'; 
+            text-align:left;
+            color:aquamarine;
+            font-size: 55px;
+            font-weight: Bold; 
+}
+label{
+            color:blueviolet;
+            font-family:'Tangerine'; 
+            font-weight: Bold;
+            font-size: 40px;
+}
+body{
+            background-color: #F07575; 
+            background-image: -webkit-linear-gradient(top, hsl(0, 80%, 70%), #bada55); 
+            background-image: -moz-linear-gradient(top, hsl(0, 80%, 70%), #bada55); 
+            background-image: -o-linear-gradient(top, hsl(0, 80%, 70%), #bada55);  
+            background-image: linear-gradient(to bottom, hsl(0, 80%, 70%), #bada55); 
+}
