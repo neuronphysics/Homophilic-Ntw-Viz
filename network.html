@@ -80,22 +80,17 @@
                    };
                    //lets simply log them but you can plot or smth other 
                    console.log(dataObject); 
-                   
-                   
+                   $scope.$apply(function() {
+                        var graph=homophilic_barabasi_albert_graph_assym(dataObject.N, dataObject.m , dataObject.minority, dataObject.hAB , dataObject.hBA);
+                        makeSVG(graph);
+                   });
                }
                
          }]);
-        var appElement = document.querySelector('[ng-app=myApp]');
-        var $scope = angular.element(appElement).scope();
-          $scope.$apply(function() {
-            $scope.data.age = 20;
-          });
-        } 
+        
         var scope=angular.element(document.getElementById("outer")).scope();
         //inputVals=scope.networkInputs;
         
-        
-        var graph=homophilic_barabasi_albert_graph_assym(inputVals.N, inputVals.m , inputVals.minority, inputVals.hAB , inputVals.hBA);
     </script>
 </body>
 
