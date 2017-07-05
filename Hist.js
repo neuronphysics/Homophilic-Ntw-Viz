@@ -1,7 +1,7 @@
 function barPlot(nodes,visual){
         //http://www.ng-newsletter.com/posts/d3-on-angular.html
         //http://www.recursion.org/d3-for-mere-mortals/
-        
+        var padding = 10;
         var copyNodes = nodes.slice();
         //Determine the number of top 10% of nodes in terms of their degree values
         var topTenPer=Math.floor(0.1*copyNodes.length);
@@ -27,9 +27,9 @@ function barPlot(nodes,visual){
         color:"blue"})
         console.log(stats[0].values);
         console.log(stats[1].values);
-        var barWidth = 40;
-        var width = (barWidth + 10) * stats.length;
-        var height = 200;
+        var barWidth = 50;
+        var width = (barWidth + 15) * stats.length;
+        var height = 250;
 
         var x = d3.scale.linear().domain([0, stats.length]).range([20, width+20]);
         var y = d3.scale.linear().domain([0, d3.max(stats, function(datum) { return datum.values; })]).rangeRound([0, height]);
@@ -48,19 +48,19 @@ function barPlot(nodes,visual){
         style("opacity", 0.5).
         attr("fill", function (datum) {return datum.color});
         //Adding text
-        visual.selectAll("text").
+        visual.selectAll("text.xAxis").
         data(stats).
         enter().append("text").
-        attr("x", function(datum, index) { return x(index) + barWidth; }).
+        attr("x", "20px").
         attr("y", function(datum) { return height - y(datum.values); }).
-        attr("dx", -barWidth/2).
-        attr("dy", "1.em").
+        attr("dy", "0px").
         attr("text-anchor", "middle").
-        attr("font-family", "sans-serif").
-		attr("font-size", "80px").
-        text(function(datum) { return datum.values+"%";}).
-        attr("fill", "white");
-    
+        attr("style", "font-size: 35; font-family: Tangerine, sans-serif; font-weight: Bold").
+        text(function(datum) { return (datum.values).toFixed(1)+"%";}).
+        attr("transform", "translate("+( width+padding) +",20)").
+        attr("class", "xAxis");
+        
+        
         visual.selectAll("text.yAxis").
         data(stats).
         enter().append("text").
