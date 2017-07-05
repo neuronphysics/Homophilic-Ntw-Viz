@@ -1,29 +1,44 @@
-function makeSVG(graph){
-       //SVG size
-       var width = 1800,
-            height = 1100;
+function link(scope,element, attrs){
+    //SVG size
+    var width = 1800,
+    height = 1100;
 
-        // We only need to specify the dimensions for this container.
+    // We only need to specify the dimensions for this container.
 
-        var svg = d3.select('body').append('svg')
+    var vis = d3.select(element[0]).append('svg')
               .attr('width', width)
               .attr('height', height);
-        var force = d3.layout.force()
+    console.log(vis);
+    var force = d3.layout.force()
                       .gravity(.05)
                       .distance(100)
                       .charge(-100)
                       .size([width, height]);
         // Extract the nodes and links from the data.
+    scope.$watch('val',function(newVal,oldVal){
+                   vis.selectAll('*').remove();
+                   if (!newVal){
+                       return;
+                   }
+        //Get new data from generated graph       
         var Glinks = [];
-        var W=graph.degree()._numberValues;
-        graph.edges().forEach(function(item){
-           Glinks.push({"source": item[0],"target":item[1]})
+        var W=newVal.degree()._numberValues;
+        newVal.edges().forEach(function(item){
+           Glinks.push({
+               "source": item[0],
+               "target":item[1]
+           });
         });
         var Gnodes = [];
-        var obj=graph.node._numberValues;
+        var obj=newVal.node._numberValues;
         Object.keys(obj).forEach(function(key) {
-           Gnodes.push({"name":key, "color":obj[key]["color"], "count":W[key]});
+           Gnodes.push({
+               "name":key, 
+               "color":obj[key]["color"], 
+               "count":W[key]
+           });
         });
+         //
         
         //Creates the graph data structure 
         force.nodes(Gnodes)
@@ -33,14 +48,14 @@ function makeSVG(graph){
              })//link length
              .start();
          //Create all the line svgs but without locations yet
-        var link = svg.selectAll(".link")
+        var link = vis.selectAll(".link")
            .data(Glinks)
            .enter().append("line")
            .attr("class", "link")
            .style("stroke-width","0.3px");
         
         //Do the same with the circles for the nodes - no 
-        var node = svg.selectAll(".node")
+        var node = vis.selectAll(".node")
             .data(Gnodes)
             .enter().append("g")
             .attr("class", "node")
@@ -74,6 +89,9 @@ function makeSVG(graph){
                  });
 
               node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-        });      
-    
-    }
+        });  
+        //bar plot from top 10% ranking nodes 
+        barPlot(Gnodes,vis);
+         
+    });
+}

@@ -16,9 +16,10 @@
 <body ng-app="myApp">
      <script src="GenerateHomophilicGraph.js" type="text/javascript"></script>
      <script src="svgGraph.js" type="text/javascript"></script>
+     <script src="Hist.js" type="text/javascript"></script>
      <h1 class="title">Simulating a network with homophilic property </h1>
      <div id="outer" ng-controller="MainCtrl" class="col-md-6">
-        <network-inputs inputs="networkInputs" submit="submit(inputs)"></network-inputs>
+        <network-inputs val="data" inputs="networkInputs" submit="submit(inputs)"></network-inputs>
      </div> 
     <!--test -->
      <script type="text/javascript">
@@ -27,12 +28,15 @@
          angular.module("myApp", [])
          
          .directive('networkInputs', function() {
+               
          return {
                 restrict: 'E',                
                 scope: {
                    inputs: '<',
-                   submit: '&'
+                   submit: '&',
+                   val:'='
                 },
+                link : link,               
                 template: 
               '<h3 >Initialise new parameters to generate a network </h3>'+
                     '<form ng-submit="submit({inputs: inputs})" class="form-inline">'+
@@ -79,13 +83,13 @@
                $scope.networkInputs={};
                $scope.mySVG=function(){
                          var graph=homophilic_barabasi_albert_graph_assym($scope.networkInputs.N, $scope.networkInputs.m , $scope.networkInputs.minority, $scope.networkInputs.hAB , $scope.networkInputs.hBA);
-                         makeSVG(graph);
+                         
                 };
                
                function init(){
                   $scope.networkInputs=initialiseNetwork.networkInputs;
                    //Run the function which generates the graph and plot it 
-                   $scope.mySVG();
+                  $scope.data = homophilic_barabasi_albert_graph_assym($scope.networkInputs.N, $scope.networkInputs.m , $scope.networkInputs.minority, $scope.networkInputs.hAB , $scope.networkInputs.hBA);
                }
                init();
                
@@ -100,19 +104,12 @@
                    };
                    //lets simply log them but you can plot or smth other 
                    console.log($scope.networkInputs); 
+                   $scope.data = homophilic_barabasi_albert_graph_assym(dataObject.N, dataObject.m , dataObject.minority, dataObject.hAB , dataObject.hBA);
                    
-                   $scope.$watch(function() { 
-                       return Object.keys($scope.networkInputs).length > 0; 
-                       }, function() {
-                             var graph=homophilic_barabasi_albert_graph_assym($scope.networkInputs.N, $scope.networkInputs.m , $scope.networkInputs.minority, $scope.networkInputs.hAB , $scope.networkInputs.hBA);
-                             makeSVG(graph);
-                       });
                }
                
          }]);
         
-        var scope=angular.element(document.getElementById("outer")).scope();
-        //inputVals=scope.networkInputs;
         
     </script>
 </body>

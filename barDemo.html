@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+     <meta charset="utf-8">     
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
+     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+     <script src='http://d3js.org/d3.v3.min.js'></script>     
+<body>     
+<svg id="bar-demo">
+
+</svg>
+
+<script type="text/javascript">
+        var stats=[];
+        stats.push({status:"minority", value:4, color:"red"})
+        stats.push({status:"majority", value:6, color:"blue"})
+        var barWidth = 40;
+        var width = (barWidth + 10) * stats.length;
+        var height = 200;
+        var x = d3.scale.linear().domain([0, stats.length]).range([20, width+20]);
+        var y = d3.scale.linear().domain([0, d3.max(stats, function(datum) { return datum.value; })]).rangeRound([0, height]);
+
+        var visual = d3.select("#bar-demo").
+        append("svg:svg").
+        attr("width", width).
+        attr("height", height);
+
+        visual.selectAll("rect").
+        data(stats).
+        enter().
+        append("g").
+        append("rect").
+        attr("x", function(datum, index) { return x(index); }).
+        attr("y", function(datum) { return height - y(datum.value); }).
+        attr("height", function(datum) { return y(datum.value); }).
+        attr("width", barWidth).
+        style("opacity", 0.5).
+        attr("fill", function (datum) {return datum.color});
+        //Adding text
+        visual.selectAll("text").
+        data(stats).
+        enter().append("text").
+        attr("x", function(datum, index) { return x(index) + barWidth; }).
+        attr("y", function(datum) { return height - y(datum.value); }).
+        attr("dx", -barWidth/2).
+        attr("dy", "0.75em").
+        attr("text-anchor", "middle").
+        attr("font-family", "sans-serif").
+		attr("font-size", "20px").
+        text(function(datum) { return datum.value+"%";}).
+        attr("fill", "white");
+    
+        visual.selectAll("text.yAxis").
+        data(stats).
+        enter().append("text").
+        attr("x", function(datum, index) { return x(index) + barWidth; }).
+        attr("y", height).
+        attr("dx", -barWidth/2).
+        attr("text-anchor", "middle").
+        attr("style", "font-size: 25; font-family: Tangerine, sans-serif; font-weight: Bold").
+        text(function(datum) { return datum.status;}).
+        attr("transform", "translate(0, 18)").
+        attr("class", "yAxis");
+        
+       </script>
+</body>
+
+</html>    

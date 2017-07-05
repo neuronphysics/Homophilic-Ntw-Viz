@@ -1,7 +1,8 @@
-http://www.ng-newsletter.com/posts/d3-on-angular.html
-
-       console.log(Gnodes);
-        var copyNodes = Gnodes.slice();
+function barPlot(nodes,visual){
+        //http://www.ng-newsletter.com/posts/d3-on-angular.html
+        //http://www.recursion.org/d3-for-mere-mortals/
+        
+        var copyNodes = nodes.slice();
         //Determine the number of top 10% of nodes in terms of their degree values
         var topTenPer=Math.floor(0.1*copyNodes.length);
         //sort the array based on that
@@ -20,3 +21,55 @@ http://www.ng-newsletter.com/posts/d3-on-angular.html
         
         console.log(redNodes); 
         console.log(blueNodes);  
+        var stats=[];
+        stats.push({status:"minority", values:(redNodes.length/copyNodes.length)*100, color:"red"})
+        stats.push({status:"majority", values:(blueNodes.length/copyNodes.length)*100,
+        color:"blue"})
+        console.log(stats[0].values);
+        console.log(stats[1].values);
+        var barWidth = 40;
+        var width = (barWidth + 10) * stats.length;
+        var height = 200;
+
+        var x = d3.scale.linear().domain([0, stats.length]).range([20, width+20]);
+        var y = d3.scale.linear().domain([0, d3.max(stats, function(datum) { return datum.values; })]).rangeRound([0, height]);
+
+
+
+        visual.selectAll("rect").
+        data(stats).
+        enter().
+        append("g").
+        append("rect").
+        attr("x", function(datum, index) { return x(index); }).
+        attr("y", function(datum) { return height - y(datum.values); }).
+        attr("height", function(datum) { return y(datum.values); }).
+        attr("width", barWidth).
+        style("opacity", 0.5).
+        attr("fill", function (datum) {return datum.color});
+        //Adding text
+        visual.selectAll("text").
+        data(stats).
+        enter().append("text").
+        attr("x", function(datum, index) { return x(index) + barWidth; }).
+        attr("y", function(datum) { return height - y(datum.values); }).
+        attr("dx", -barWidth/2).
+        attr("dy", "1.em").
+        attr("text-anchor", "middle").
+        attr("font-family", "sans-serif").
+		attr("font-size", "80px").
+        text(function(datum) { return datum.values+"%";}).
+        attr("fill", "white");
+    
+        visual.selectAll("text.yAxis").
+        data(stats).
+        enter().append("text").
+        attr("x", function(datum, index) { return x(index) + barWidth; }).
+        attr("y", height).
+        attr("dx", -barWidth/2).
+        attr("text-anchor", "middle").
+        attr("style", "font-size: 25; font-family: Tangerine, sans-serif; font-weight: Bold").
+        text(function(datum) { return datum.status;}).
+        attr("transform", "translate(0, 18)").
+        attr("class", "yAxis");
+    }
