@@ -67,6 +67,9 @@ function link(scope,element, attrs){
             .style("opacity", .3)
             .style("fill", function (d) {
               return d.color;
+            })
+            .on("click", function(){
+            d3.select(this).style("fill", "magenta").style("opacity", .3);
             });
         //add degree of node as text 
         node.append("text")
@@ -89,7 +92,8 @@ function link(scope,element, attrs){
                  });
 
               node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-        });  
+        }); 
+       
         //bar plot from top 10% ranking nodes 
         barPlot(Gnodes,vis);
          

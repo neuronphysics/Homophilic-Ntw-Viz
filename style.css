@@ -52,3 +52,9 @@ body{
             width=100%;
             height: 600px;
 }
+.SliderProp{
+  font-family:'Tangerine';
+  font-weight: Bold;
+  font-size: 40px;  
+    float:right;
+}
