@@ -68,9 +68,16 @@ function link(scope,element, attrs){
             .style("fill", function (d) {
               return d.color;
             })
-            .on("click", function(){
-            d3.select(this).style("fill", "magenta").style("opacity", .3);
+            .on("click", function(d,i){
+             
+               // d - datum
+               // i - identifier or index
+               // this - the `<rect>` that was clicked
+            console.log(i);
+            console.log(d);
+            d3.select(this).style("fill", "magenta").style("opacity", .5);
             });
+
         //add degree of node as text 
         node.append("text")
             .attr("text-anchor", "middle")
