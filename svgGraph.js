@@ -2,7 +2,7 @@ function link(scope,element, attrs){
     //SVG size
     var width = 1800,
     height = 1100;
-
+    var beta = 0.1;
     // We only need to specify the dimensions for this container.
 
     var vis = d3.select(element[0]).append('svg')
@@ -75,7 +75,19 @@ function link(scope,element, attrs){
                // this - the `<rect>` that was clicked
             console.log(i);
             console.log(d);
+            
+            const InfectedNode = new Object();
+            InfectedNode.index=d.index;
+            InfectedNode.degree=d.count;
+            InfectedNode.color=d.color;
+            InfectedNode.name="infected";
+            
             d3.select(this).style("fill", "magenta").style("opacity", .5);
+            var N=Gnodes.length;
+            console.log(InfectedNode.index);
+            console.log(Glinks);
+            //Running a function based on epidemic model
+            SIModel(beta, Glinks, Gnodes, InfectedNode, N);
             });
 
         //add degree of node as text 
