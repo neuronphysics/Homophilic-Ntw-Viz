@@ -1,3 +1,4 @@
+//http://rocs.hu-berlin.de/D3/ba/
 function SIModel(beta, links, nodes, infectedNode, N){
     /* list of input parameters
     links: list of all edges between nodes
