@@ -21,7 +21,7 @@ The parameters that can be changed are:
 * **![equation](http://www.sciweavers.org/download/Tex2Img_1508944093.jpg)** - The probability of connection between the majority group members with the minorities.
 
 
-**The colour bars** (the top left side) illustrate the *fraction* of minority nodes (red) in the **top 10%** with the highest degree inside the generate netork.
+**The colour bars** (the top left side) illustrate the *fraction* of minority nodes (red) in the **top 10%** with the highest degree inside the generate network.
 
 
 ## Author of the code
