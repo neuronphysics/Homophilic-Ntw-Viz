@@ -1,1 +1,3 @@
-# network
+#Visibility of minorities in social networks
+The visualisation of a social network with taking into account the following mechanisms which influence on the generation of the social ties in networks:
+[Karimi et al. 2017](https://arxiv.org/pdf/1702.00150.pdf) assume that there is an underlying **homophily** parameter due to node attributes which leads to the formation of links between members of each group in the network. The model also considers the **preferential attachment** property proposed by Barabási and Albert. The **degree of nodes** can change the probability of an edge between nodes and this behaviour has been observed in many real-world social networks. 
