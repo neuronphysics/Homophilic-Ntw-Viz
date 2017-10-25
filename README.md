@@ -14,11 +14,11 @@ The parameters that can be changed are:
 
 * **Number of edges of a new node** - The **minimum** number of edges which a node can have in this network
 
-* **Minority fraction** - The fraction of nodes that belong to group *a* (![equation](http://www.sciweavers.org/download/Tex2Img_1508942344.jpg))
+* **Minority fraction** - The fraction of nodes that belong to the group *a* (![equation](http://www.sciweavers.org/download/Tex2Img_1508942344.jpg))
 
 * **![equation](http://www.sciweavers.org/download/Tex2Img_1508943819.jpg)** - The probability of connection between group *a* and *b* ![equation](http://www.sciweavers.org/download/Tex2Img_1508944002.jpg)
 
-* **![equation](http://www.sciweavers.org/download/Tex2Img_1508944093.jpg)** - The probability of connection between group majority group members with the minorities.
+* **![equation](http://www.sciweavers.org/download/Tex2Img_1508944093.jpg)** - The probability of connection between the majority group members with the minorities.
 
 
-**The colour bars** (the top left side) illustrate the *fraction* of nodes in the **top 10%** with the highest degree inside the minority (red) or majority group (blue).
+**The colour bars** (the top left side) illustrate the *fraction* of minority nodes (red) in the **top 10%** with the highest degree inside the generate netork.
