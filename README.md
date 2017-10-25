@@ -22,3 +22,9 @@ The parameters that can be changed are:
 
 
 **The colour bars** (the top left side) illustrate the *fraction* of minority nodes (red) in the **top 10%** with the highest degree inside the generate netork.
+
+
+## Author of the code
+
+* **Zahra Sheikhbahaee** - PhD in Astrophysics 
+
