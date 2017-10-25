@@ -21,4 +21,4 @@ The parameters that can be changed are:
 * **![equation](http://www.sciweavers.org/download/Tex2Img_1508944093.jpg)** - The probability of connection between group majority group members with the minorities.
 
 
-**The colour** bars illustrate the *fraction* of nodes in each group in the **top 10%** of nodes with the highest degree.
+**The colour bars** (the top left side) illustrate the *fraction* of nodes in the **top 10%** with the highest degree inside the minority (red) or majority group (blue).
