@@ -7,7 +7,7 @@ For users who are not familiar by how to render **html files**, here is the solu
 * Download the content of this repository on your machine.
 
 
-* *Download and install [brackets](http://brackets.io/) which is an editor for web developers.
+* Download and install [brackets](http://brackets.io/) which is an editor for web developers.
 
 
 * Go to the *network project* and open the *network.html* using **File> Open Folders** in your brackets editor.
@@ -26,13 +26,9 @@ The parameters that can be changed are:
 
 * **Minority fraction** - The fraction of nodes that belong to the group *a* 
 
-* ```math
-h_{ab}
-```  - The probability of connection between group *a* and *b*
+* $`h_{ab}`$ - The probability of connection between group *a* and *b*
 
-* ```math
-h_{ba}
-``` - The probability of connection between the majority group members with the minorities
+* $`h_{ba}`$ - The probability of connection between the majority group members with the minorities
 
 * **Press button generate** - Make a new realization of the network with the modified input parameters
 
