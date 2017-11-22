@@ -4,7 +4,7 @@ The visualisation of a social network which is based on [Karimi et al. 2017](htt
 
 For users who are not familiar by how to render **html files**, here is the solution:
 
-* Download a copy of an existing Git repository on your machine using `git clone https://github.com/neuronphysics/network.git` command.
+* Download a copy of an existing Git repository on your machine using `git clone https://github.com/neuronphysics/Homophilic-Ntw-Viz.git` command.
 
 
 * Download and install [brackets](http://brackets.io/) which is an editor for web developers.
@@ -17,7 +17,7 @@ For users who are not familiar by how to render **html files**, here is the solu
 
 The output should be similar to the following image:
 
-![network](https://github.com/neuronphysics/network/blob/master/network.jpg "homophily network")
+![network](https://github.com/neuronphysics/Homophilic-Ntw-Viz/blob/master/network.jpg "homophily network")
 
 In this model, nodes have only two attributes, so they are assigned to two groups with different sizes. The homophily parameter alters between ```0``` to ```1```.  Here it was posited that group *a* is the **minority group** in the network and group *b* has the majority. The nodes in the minority group are shown in **red**. 
 
