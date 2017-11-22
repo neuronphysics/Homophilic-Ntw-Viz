@@ -1,10 +1,10 @@
 # Visibility of minorities in social networks
 
-The visualisation of a social network which is based on [Karimi et al. 2017](https://arxiv.org/pdf/1702.00150.pdf) model. In the model, it is assumeed that there is an underlying **homophily** parameter due to node attributes which leads to the formation of links between members of each group in the network. The model considers the **preferential attachment** property proposed by Barabási and Albert. The **degree of nodes** can change the probability of an edge between nodes, since this behaviour has been observed in many real-world social networks. For the implementation of the model in **python**, you can visit [this repository](https://github.com/frbkrm/HomophilicNtwMinorities).
+The visualisation of a social network which is based on [Karimi et al. 2017](https://arxiv.org/pdf/1702.00150.pdf) model. In the model, it is assumed that there is an underlying **homophily** parameter due to node attributes which leads to the formation of links between members of each group in the network. The model considers the **preferential attachment** property proposed by Barabási and Albert. For the implementation of the model in **python**, you can visit [this repository](https://github.com/frbkrm/HomophilicNtwMinorities).
 
 For users who are not familiar by how to render **html files**, here is the solution if you follow the below instruction:
 
-* Download the content of this repository on your machine.
+* Download a copy of an existing Git repository on your machine using `git clone https://github.com/neuronphysics/network.git` command.
 
 
 * Download and install [brackets](http://brackets.io/) which is an editor for web developers.
