@@ -15,8 +15,9 @@ For users who are not familiar by how to render **html files**, here is the solu
 
 * select **File > Live Preview** or click the **lightning bolt** icon on the rightside toolbar. Brackets will launch Chrome and open your file in a new tab. 
 
-
-In this model, nodes have only two attributes, so they are assigned to two groups with different sizes. The homophily parameter alters between ```0``` to ```1```.  Here it was posited that group *a* is the **minority group** in the network and group *b* has the majority. The nodes in the minority group are shown in **red**.
+The output should be similar the following image:
+![network](https://github.com/neuronphysics/network/blob/master/network.jpg "homophily network")
+In this model, nodes have only two attributes, so they are assigned to two groups with different sizes. The homophily parameter alters between ```0``` to ```1```.  Here it was posited that group *a* is the **minority group** in the network and group *b* has the majority. The nodes in the minority group are shown in **red**. 
 
 The parameters that can be changed are:
 
