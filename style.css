@@ -1,5 +1,5 @@
 .title {
-            font-family: 'Tangerine', serif;
+            font-family: 'Georgia', serif;
             font-size: 80px;
             font-weight: Bold;
             color:darkblue;
@@ -30,18 +30,18 @@ input {
             padding:5px 5px;
             width:30%;
 }
-h3 {
-            font-family:'Tangerine'; 
+h4 {
+            font-family:'Georgia'; 
             text-align:left;
             color:aquamarine;
-            font-size: 55px;
+            font-size: 45px;
             font-weight: Bold; 
 }
 label{
             color:blueviolet;
-            font-family:'Tangerine'; 
+            font-family:'Georgia'; 
             font-weight: Bold;
-            font-size: 40px;
+            font-size: 30px;
 }
 body{
             background-color: #F07575; 
@@ -53,8 +53,8 @@ body{
             height: 600px;
 }
 .SliderProp{
-  font-family:'Tangerine';
+  font-family:'Georgia';
   font-weight: Bold;
-  font-size: 40px;  
+  font-size: 25px;  
     float:right;
 }

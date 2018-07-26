@@ -55,7 +55,7 @@ function barPlot(nodes,visual){
         attr("y", function(datum) { return height - y(datum.values); }).
         attr("dy", "0px").
         attr("text-anchor", "middle").
-        attr("style", "font-size: 35; font-family: Tangerine, sans-serif; font-weight: Bold").
+        attr("style", "font-size: 20; font-family: Georgia, sans-serif; font-weight: Bold").
         text(function(datum) { return (datum.values).toFixed(1)+"%";}).
         attr("transform", "translate("+( width+padding) +",20)").
         attr("class", "xAxis");
@@ -68,8 +68,8 @@ function barPlot(nodes,visual){
         attr("y", height).
         attr("dx", -barWidth/2).
         attr("text-anchor", "middle").
-        attr("style", "font-size: 25; font-family: Tangerine, sans-serif; font-weight: Bold").
+        attr("style", "font-size: 16; font-family: Georgia, sans-serif; font-weight: Bold").
         text(function(datum) { return datum.status;}).
-        attr("transform", "translate(0, 18)").
+        attr("transform", "translate(0, 20)").
         attr("class", "yAxis");
     }
